@@ -71,12 +71,28 @@ const menu = [
     img: "./images/item-9.jpeg",
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
+  {
+    id: 10,
+    title: "bison steak",
+    category: "dinner",
+    price: 22.99,
+    img: "./images/item-10.jpeg",
+    desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
+  },
 ];
 
-const section = document.querySelector('.section-center')
+//select element 
+const content = document.querySelector('.section-center')
+const displyfilter = document.querySelector('.btn-container')
 
 window.addEventListener('DOMContentLoaded', ()=>{
-  const load = menu.map((item)=> `<article class="menu-item">
+  displaycontent(menu)
+displayMenuTitle()
+})
+
+//displaying content 
+const displaycontent = (arr)=>{
+ const display= arr.map((item)=>`<article class="menu-item">
   <img src="${item.img}" class="photo" alt="">
   <div class="item-info">
     <header>
@@ -86,6 +102,30 @@ window.addEventListener('DOMContentLoaded', ()=>{
     <p class="item-text"> ${item.desc}</p>
   </div>
 </article>`).join('')
+content.innerHTML = display
+}
 
-section.innerHTML= load
+//displaying filter title 
+
+const displayMenuTitle = ()=>{
+  const [...unique] = new Set (menu.map((item)=>item.category))
+  unique.unshift('All')
+  const display = unique.map((item)=>`<button class="filter-btn" data-id="${item}" type="button">${item}</button>`).join('')
+  displyfilter.innerHTML = display
+
+  const btn = document.querySelectorAll('.filter-btn')
+  btn.forEach((item)=>{
+  item.addEventListener('click', (e)=>{
+  const category = e.currentTarget.dataset.id
+
+  const filter = menu.filter((item)=> item.category === category)
+  category === "All" ?displaycontent(menu) : displaycontent(filter)
+  })
 })
+}
+
+
+
+
+
+
